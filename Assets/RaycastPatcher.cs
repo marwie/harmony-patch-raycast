@@ -10,6 +10,7 @@ public class RaycastPatcher : MonoBehaviour
 {
 	private Harmony instance;
 
+	public bool EnableDebug = true;
 	public float PatchAfterSeconds = -1;
 	private bool didPatch;
 
@@ -44,6 +45,10 @@ public class RaycastPatcher : MonoBehaviour
 	private void Update()
 	{
 		if (!Application.isPlaying) return;
+		
+		if(EnableDebug)
+			Harmony.DEBUG = true;
+		
 		if (!didPatch && PatchAfterSeconds >= 0 && Time.time > PatchAfterSeconds)
 		{
 			PatchNow();
@@ -66,8 +71,7 @@ public class RaycastPatcher : MonoBehaviour
 		[HarmonyPatch("origin")]
 		public static void Postfix()
 		{
-			// var r = new Ray();
-			// r.origin
+			// var r = new Ray().origin;
 			// Debug.Log("Get origin " + System.Reflection.MethodBase.GetCurrentMethod().Name);
 		}
 	}
