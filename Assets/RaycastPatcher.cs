@@ -31,14 +31,22 @@ public class RaycastPatcher : MonoBehaviour
 			didPatch = false;
 		}
 	}
-	
+
+	private void Start()
+	{
+		if (PatchAfterSeconds >= 0)
+			Debug.Log(
+				"Will auto patch after " + PatchAfterSeconds +
+				", set this to < 0 to disable auto patching. you can also manually patch it using the PatchNow context menu on " + this, this);
+	}
+
 	private void Update()
 	{
 		if (!didPatch && PatchAfterSeconds >= 0 && Time.time > PatchAfterSeconds)
 		{
 			PatchNow();
 		}
-		
+
 		var cam = Camera.main;
 		var ray = new Ray(Random.insideUnitSphere * 3f, Random.insideUnitCircle.normalized);
 		Debug.DrawRay(ray.origin, ray.direction, Color.gray, .1f);
