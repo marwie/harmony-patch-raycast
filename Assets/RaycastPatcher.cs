@@ -5,6 +5,7 @@ using HarmonyLib;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+[ExecuteInEditMode]
 public class RaycastPatcher : MonoBehaviour
 {
 	private Harmony instance;
@@ -37,11 +38,12 @@ public class RaycastPatcher : MonoBehaviour
 		if (PatchAfterSeconds >= 0)
 			Debug.Log(
 				"Will auto patch after " + PatchAfterSeconds +
-				", set this to < 0 to disable auto patching. you can also manually patch it using the PatchNow context menu on " + this, this);
+				" second(s), set this to < 0 to disable auto patching. you can also manually patch it using the PatchNow context menu on " + this, this);
 	}
 
 	private void Update()
 	{
+		if (!Application.isPlaying) return;
 		if (!didPatch && PatchAfterSeconds >= 0 && Time.time > PatchAfterSeconds)
 		{
 			PatchNow();
